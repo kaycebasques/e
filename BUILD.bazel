@@ -1,0 +1,20 @@
+load("@rules_python//python:defs.bzl", "py_binary")
+load("@rules_python//python/uv:lock.bzl", "lock")
+load("@deps//:requirements.bzl", "requirement")
+
+lock(
+    name = "deps",
+    srcs = ["deps.in"],
+    out = "deps.lock",
+)
+
+py_binary(
+    name = "index",
+    srcs = ["index.py"],
+    main = "index.py",
+    data = ['.env'],
+    deps = [
+        requirement("google-genai"),
+        requirement("python-dotenv"),
+    ],
+)
