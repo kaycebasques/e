@@ -4,6 +4,9 @@ from pathlib import Path
 from dotenv import load_dotenv
 from google import genai
 
+from github.client import Client
+from project import Project
+
 
 build_working_directory = Path(environ['BUILD_WORKING_DIRECTORY'])
 load_dotenv(build_working_directory / '.env')

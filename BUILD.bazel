@@ -9,12 +9,10 @@ lock(
 )
 
 py_library(
-    name = "github",
-    srcs = ["github.py"],
-    deps = [
-        requirement("python-dotenv"),
-        requirement("requests"),
-    ],
+    name = "project",
+    srcs = ["project.py"],
+    data = ["project.json"],
+    deps = ["//github:repo"],
 )
 
 py_binary(
@@ -23,6 +21,8 @@ py_binary(
     main = "index.py",
     data = ['.env'],
     deps = [
+        ":project",
+        "//github:client",
         requirement("google-genai"),
         requirement("python-dotenv"),
     ],

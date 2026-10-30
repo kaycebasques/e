@@ -2,6 +2,8 @@ import json
 import os
 from pathlib import Path
 
+from github.repo import Repo
+
 
 class Project:
 
