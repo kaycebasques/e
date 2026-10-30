@@ -1,4 +1,4 @@
-load("@rules_python//python:defs.bzl", "py_binary")
+load("@rules_python//python:defs.bzl", "py_binary", "py_library")
 load("@rules_python//python/uv:lock.bzl", "lock")
 load("@deps//:requirements.bzl", "requirement")
 
@@ -6,6 +6,15 @@ lock(
     name = "deps",
     srcs = ["deps.in"],
     out = "deps.lock",
+)
+
+py_library(
+    name = "github",
+    srcs = ["github.py"],
+    deps = [
+        requirement("python-dotenv"),
+        requirement("requests"),
+    ],
 )
 
 py_binary(
