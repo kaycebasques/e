@@ -6,7 +6,8 @@ from dotenv import load_dotenv
 import requests
 
 
-class GitHub:
+class Client:
+
     def __init__(self):
         self.base_url = 'https://api.github.com'
         load_dotenv(Path(environ['BUILD_WORKING_DIRECTORY']) / '.env')
