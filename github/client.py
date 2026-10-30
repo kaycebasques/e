@@ -1,3 +1,4 @@
+from collections.abc import Iterator
 from os import environ
 from pathlib import Path
 import time
@@ -22,6 +23,22 @@ class Client:
     def get(
         self, endpoint: str, params: dict | None = None
     ) -> list[dict] | dict:
+        return self._request(endpoint, params=params).json()
+
+    def paginate(
+        self, endpoint: str, params: dict | None = None
+    ) -> Iterator[list[dict]]:
+        next_endpoint: str | None = endpoint
+        next_params = params
+        while next_endpoint is not None:
+            response = self._request(next_endpoint, params=next_params)
+            yield response.json()
+            next_endpoint = response.links.get('next', {}).get('url')
+            next_params = None
+
+    def _request(
+        self, endpoint: str, params: dict | None = None
+    ) -> requests.Response:
         url = self._url(endpoint)
         while True:
             response = self.session.get(url, params=params, timeout=30)
@@ -33,7 +50,7 @@ class Client:
                 time.sleep(delay)
                 continue
             response.raise_for_status()
-            return response.json()
+            return response
 
     def _url(self, endpoint: str) -> str:
         if endpoint.startswith('https://'):

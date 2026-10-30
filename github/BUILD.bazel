@@ -13,6 +13,24 @@ py_library(
 )
 
 py_library(
+    name = "comment",
+    srcs = ["comment.py"],
+)
+
+py_library(
+    name = "issue",
+    srcs = ["issue.py"],
+    deps = [
+        ":client",
+        ":comment",
+    ],
+)
+
+py_library(
     name = "repo",
     srcs = ["repo.py"],
+    deps = [
+        ":client",
+        ":issue",
+    ],
 )
